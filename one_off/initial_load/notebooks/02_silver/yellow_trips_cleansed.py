@@ -3,15 +3,14 @@ from pyspark.sql.functions import col, when, timestamp_diff
 
 # COMMAND ----------
 
+# Read raw trip data from the bronze table
 df = spark.read.table("nyctaxi.01_bronze.yellow_trips_raw")
 
 # COMMAND ----------
 
-df = df.filter("tpep_pickup_datetime >= '2025-08-01' AND tpep_pickup_datetime < '2026-02-01'")
-
-# COMMAND ----------
-
-df.display()
+# Filter trips to ensure they align with the date range for the parquet files
+# In this example I expect the tpep_pickup_datetime to be within January 2025 and June 2025 as these are the parquet files I initially loaded
+df = df.filter("tpep_pickup_datetime >= '2024-12-01' AND tpep_pickup_datetime < '2025-06-01'")
 
 # COMMAND ----------
 
@@ -72,13 +71,5 @@ df = df.select(
 
 # COMMAND ----------
 
-df.display()
-
-# COMMAND ----------
-
 # Write cleansed data to a Unity Catalog managed Delta table in the silver schema, overwriting existing data
 df.write.mode("overwrite").saveAsTable("nyctaxi.02_silver.yellow_trips_cleansed")
-
-# COMMAND ----------
-
-spark.read,table("nyctaxi.02_silver.yellow_trips_cleansed").display()
