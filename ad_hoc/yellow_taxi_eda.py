@@ -3,12 +3,14 @@ from pyspark.sql.functions import *
 
 # COMMAND ----------
 
-df = spark.read.table("nyctaxi.02_silver.yellow_trips_enriched")
+# MAGIC %md
+# MAGIC
+# MAGIC #### Which vendor makes the most revenue?
+# MAGIC
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC #### Which vendor makes the most revenue?
+df = spark.read.table("nyctaxi.02_silver.yellow_trips_enriched")
 
 # COMMAND ----------
 
@@ -23,6 +25,7 @@ df.\
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC
 # MAGIC #### What is the most popular pickup borough?
 
 # COMMAND ----------
@@ -53,6 +56,7 @@ df.\
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC
 # MAGIC #### Create a time series chart showing the number of trips and total revenue per day
 
 # COMMAND ----------
@@ -60,3 +64,6 @@ df.\
 df2 = spark.read.table("nyctaxi.03_gold.daily_trip_summary")
 
 df2.display()
+
+# COMMAND ----------
+
